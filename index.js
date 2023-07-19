@@ -8,7 +8,11 @@ const canvasOffsetY = canvas.offsetTop;
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
-let isPainting = false; 
+let pencilSelected = true;
+let eraserSelected = false;
+
+let isPainting = true; 
+let isErasering = false;
 let lineWidth = 5;
 
 let startX;
@@ -20,8 +24,17 @@ toolbar.addEventListener('click',e =>{
         ctx.clearRect(0,0, canvas.width, canvas.height);
     }
 
-});
+    if(e.target.id === 'Eraser'){
+        isErasering = true;
+        isPainting = false;
+    }
 
+    if(e.target.id === 'Pencil'){
+        isErasering = false;
+        isPainting = true;
+    }
+
+});
 
 
 toolbar.addEventListener('change',e =>{
@@ -35,6 +48,9 @@ toolbar.addEventListener('change',e =>{
 
 });
 
+
+
+
 const draw = (e) =>{
     if(!isPainting){
         return;
@@ -44,14 +60,35 @@ const draw = (e) =>{
     ctx.lineCap = 'round';
 
     ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
-    ctx.stroke();
+    ctx.stroke;
 }
 
 
+const eraser = (e) =>{
+    if(!isErasering){
+        return;
+    }
+
+    ctx.lineWidth = lineWidth
+    ctx.lineCap = 'round'
+
+    ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
+    ctx.stroke();
+
+
+
+}
+
 canvas.addEventListener('mousedown', (e)=>{
-    isPainting = true;
-    startX = e.clientX;
-    startY = e.clientY;
+    if(pencilSelected === true){
+        eraserSelected = false
+        isPainting = true;
+        startX = e.clientX;
+        startY = e.clientY;
+    }
+    if(eraserSelected === true){
+        
+    }
 
 });
 
